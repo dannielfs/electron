@@ -28,7 +28,7 @@ ipcMain.on("abrir-janela-sobre", () => {
 
     sobreWindow = new BrowserWindow({
       width: 300,
-      height: 250,
+      height: 205,
       alwaysOnTop: true,
       frame: false,
       webPreferences: {
