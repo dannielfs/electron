@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 
+let sobreWindow = null;
+
 app.on("ready", () => {
   let mainWindow = new BrowserWindow({
     width: 600,
@@ -12,6 +14,8 @@ app.on("ready", () => {
   });
 
   mainWindow.loadURL(`file://${__dirname}/app/index.html`);
+
+  console.log('Electron started');
 });
 
 app.on("window-all-closed", () => {
@@ -19,10 +23,29 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("abrir-janela-sobre", () => {
-  let sobreWindow = new BrowserWindow({
-    width: 300,
-    height: 200,
-  });
+
+  if (sobreWindow == null){
+
+    sobreWindow = new BrowserWindow({
+      width: 300,
+      height: 250,
+      alwaysOnTop: true,
+      frame: false,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+      },
+    }); 
+
+    sobreWindow.on('closed', () => {
+      sobreWindow = null;
+    })
+  }
 
   sobreWindow.loadURL(`file://${__dirname}/app/sobre.html`);
 });
+
+ipcMain.on('fechar-janela-sobre', () => {
+  sobreWindow.close();
+})
