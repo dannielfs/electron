@@ -29,7 +29,7 @@ botaoPlay.addEventListener('click', () => {
   if (play) {
     timer.parar(curso.textContent);
     play = false;
-    new Notification('Alura timer', {
+    new Notification('Timer', {
       body: `O curso ${curso.textContent} foi iniciado`,
       icon: 'img/stop-button.png'
     });
@@ -37,7 +37,7 @@ botaoPlay.addEventListener('click', () => {
   } else {
     timer.iniciar(tempo);
     play = true;
-    new Notification('Alura timer', {
+    new Notification('Timer', {
       body: `O curso ${curso.textContent} foi parado`,
       icon: 'img/play-button.png'
     });

@@ -79,7 +79,7 @@ module.exports = {
         label: 'Sobre',
         submenu: [
           {
-            label: 'Sobre o Alura Timer',
+            label: 'Sobre o Timer',
             click: () => {
               ipcMain.emit('abrir-janela-sobre')
             },
