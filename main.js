@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
+const data = require('./data');
 
 let sobreWindow = null;
 
@@ -51,5 +52,5 @@ ipcMain.on('fechar-janela-sobre', () => {
 })
 
 ipcMain.on('curso-parado', (event, curso, tempo) => {
-  
+
 })
