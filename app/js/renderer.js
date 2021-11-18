@@ -9,6 +9,8 @@ let botaoPlay = document.querySelector('.botao-play');
 let tempo = document.querySelector('.tempo');
 let curso = document.querySelector('.curso');
 let play = false;
+let botaoAdicionar = document.querySelector('.botao-adicionar');
+let campoAdicionar = document.querySelector('.campo-adicionar');
 
 window.onload = () => {
   data.pegaDados(curso.textContent)
@@ -43,4 +45,11 @@ ipcRenderer.on('curso-trocado', (event, nomeCurso) => {
       (err) => console.log(err)
     )
   curso.textContent = nomeCurso;
+})
+
+botaoAdicionar.addEventListener('click', () => {
+  let novoCurso = campoAdicionar.value;
+  curso.textContent = novoCurso;
+  tempo.textContent = '00:00:00';
+  campoAdicionar.value = '';
 })
