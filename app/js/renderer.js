@@ -8,6 +8,7 @@ let linkSobre = document.querySelector('#link-sobre');
 let botaoPlay = document.querySelector('.botao-play');
 let tempo = document.querySelector('.tempo');
 let curso = document.querySelector('.curso');
+let play = false;
 
 window.onload = () => {
   data.pegaDados(curso.textContent)
@@ -17,10 +18,10 @@ window.onload = () => {
       }
     )
 }
+
 linkSobre.addEventListener('click', function () {
   ipcRenderer.send('abrir-janela-sobre');
 });
-let play = false;
 
 botaoPlay.addEventListener('click', () => {
   if (play) {
@@ -32,4 +33,14 @@ botaoPlay.addEventListener('click', () => {
   }
   imgs = imgs.reverse();
   botaoPlay.src = imgs[0];
+})
+
+ipcRenderer.on('curso-trocado', (event, nomeCurso) => {
+  data.pegaDados(nomeCurso)
+    .then(
+      (dados) => tempo.textContent = dados.tempo
+    ).catch(
+      (err) => console.log(err)
+    )
+  curso.textContent = nomeCurso;
 })

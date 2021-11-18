@@ -1,25 +1,30 @@
 const data = require('./data');
 
 module.exports = {
-    geraTrayTemplade() {
-        let template = [
-            {
-                label: 'Cursos'
-            },
-            {
-                type: 'separator'
-            }
-        ]
+  geraTrayTemplade(win) {
 
-        let cursos = data.pegaNomeDosCursos();
-        cursos.forEach((curso) => {
-            let menuItem = {
-                label: curso,
-                type: 'radio'
-            }
-            template.push(menuItem)
-        })
+    let template = [
+      {
+        label: 'Cursos'
+      },
+      {
+        type: 'separator'
+      }
+    ]
 
-        return template;
-    }
+    let cursos = data.pegaNomeDosCursos();
+
+    cursos.forEach((curso) => {
+      let menuItem = {
+        label: curso,
+        type: 'radio',
+        click: () => {
+          win.send('curso-trocado', curso);
+        }
+      }
+      template.push(menuItem)
+    })
+
+    return template;
+  }
 }
