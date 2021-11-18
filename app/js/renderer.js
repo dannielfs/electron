@@ -29,9 +29,18 @@ botaoPlay.addEventListener('click', () => {
   if (play) {
     timer.parar(curso.textContent);
     play = false;
+    new Notification('Alura timer', {
+      body: `O curso ${curso.textContent} foi iniciado`,
+      icon: 'img/stop-button.png'
+    });
+    
   } else {
     timer.iniciar(tempo);
     play = true;
+    new Notification('Alura timer', {
+      body: `O curso ${curso.textContent} foi parado`,
+      icon: 'img/play-button.png'
+    });
   }
   imgs = imgs.reverse();
   botaoPlay.src = imgs[0];
@@ -53,4 +62,9 @@ botaoAdicionar.addEventListener('click', () => {
   tempo.textContent = '00:00:00';
   campoAdicionar.value = '';
   ipcRenderer.send('curso-adicionado', novoCurso);
+})
+
+ipcRenderer.on('atalho-iniciar-parar', () => {
+  let click = new MouseEvent('click');
+  botaoPlay.dispatchEvent(click);
 })

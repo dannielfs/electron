@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Tray, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, Tray, Menu, globalShortcut } = require("electron");
 const data = require('./data');
 const templateGenerator = require('./template');
 
@@ -7,6 +7,8 @@ let tray = null;
 let mainWindow = null;
 
 app.on("ready", () => {
+  console.log('Electron started');
+
   mainWindow = new BrowserWindow({
     width: 600,
     height: 400,
@@ -21,10 +23,15 @@ app.on("ready", () => {
   let template = templateGenerator.geraTrayTemplade(mainWindow);
   let trayMenu = Menu.buildFromTemplate(template);
   tray.setContextMenu(trayMenu);
-  
-  mainWindow.loadURL(`file://${__dirname}/app/index.html`);
+  let templateMenu = templateGenerator.geraMenuPrincipalTemplate(app);
+  let menuPrincipal = Menu.buildFromTemplate(templateMenu);
+  Menu.setApplicationMenu(menuPrincipal)
 
-  console.log('Electron started');
+  globalShortcut.register('CmdOrCtrl+Shift+J', () => {
+    mainWindow.send('atalho-iniciar-parar');
+  })
+  mainWindow.loadURL(`file://${__dirname}/app/index.html`);
+  mainWindow.openDevTools();
 });
 
 app.on("window-all-closed", () => {
