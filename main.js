@@ -4,9 +4,10 @@ const templateGenerator = require('./template');
 
 let sobreWindow = null;
 let tray = null;
+let mainWindow = null;
 
 app.on("ready", () => {
-  let mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 600,
     height: 400,
     webPreferences: {
@@ -62,3 +63,9 @@ ipcMain.on('curso-parado', (event, curso, tempo) => {
   debugger
   data.salvaDados(curso, tempo);
 });
+
+ipcMain.on('curso-adicionado', (event, novoCurso) => {
+  let novoTemplate = templateGenerator.adicionaCursoNoTray(novoCurso, mainWindow);
+  let novoTrayMenu = Menu.buildFromTemplate(novoTemplate);
+  tray.setContextMenu(novoTrayMenu);
+})
