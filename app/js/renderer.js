@@ -47,18 +47,26 @@ botaoPlay.addEventListener('click', () => {
 })
 
 ipcRenderer.on('curso-trocado', (event, nomeCurso) => {
+  timer.parar(curso.textContent);
   data.pegaDados(nomeCurso)
     .then(
       (dados) => tempo.textContent = dados.tempo
     ).catch(
-      (err) => console.log(err)
+      (err) => {
+        console.log('O curso ainda não possui json');
+        tempo.textContent = '00:00:00';
+      }
     )
   curso.textContent = nomeCurso;
 })
 
 botaoAdicionar.addEventListener('click', () => {
   let novoCurso = campoAdicionar.value;
-  curso.textContent = novoCurso;
+  if (campoAdicionar.value == '') {
+    console.log('Não pode adicionar um curso vazio');
+    return;
+  }
+  curso.textContent = novoCurso; 
   tempo.textContent = '00:00:00';
   campoAdicionar.value = '';
   ipcRenderer.send('curso-adicionado', novoCurso);
